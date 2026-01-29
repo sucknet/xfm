@@ -2,7 +2,7 @@
 (function() {
     'use strict';
     
-    let isReplaced = false;
+    let lastUrl = location.href;
     const CONTRACT_ADDRESS = 'XFLm5L3SXHJ26YDiiHLLCEANGpTG5afatWLMPMG5Ypv';
     const BURNED_LP_LINK = '#'; // Akan diisi nanti
     const BUY_LINK = '#'; // Akan diisi nanti
@@ -23,14 +23,18 @@
     }
     
     function replaceTokenSections() {
-        if (isReplaced) return;
+        // Reset flag jika URL berubah (navigasi antar halaman)
+        const currentUrl = location.href;
+        if (currentUrl !== lastUrl) {
+            lastUrl = currentUrl;
+        }
         
         const allElements = document.querySelectorAll('*');
         
         for (const el of allElements) {
             const textContent = el.textContent || '';
             
-            if ((textContent.includes('Token Information') || textContent.includes('Token Preview')) &&
+                if ((textContent.includes('Token Information') || textContent.includes('Token Preview')) &&
                 (textContent.includes('Define the basic') || textContent.includes('Live preview'))) {
                 
                 let container = el;
@@ -40,6 +44,14 @@
                     const className = container.className || '';
                     
                     if (className.includes('grid') && className.includes('gap')) {
+                        // Check jika sudah pernah di-replace
+                        if (container.hasAttribute('data-xflm-replaced')) {
+                            return true;
+                        }
+                        
+                        // Mark sebagai sudah replaced
+                        container.setAttribute('data-xflm-replaced', 'true');
+                        
                         // Hapus konten lama
                         container.innerHTML = '';
                         container.className = 'max-w-lg mx-auto px-4 py-8';
@@ -152,7 +164,6 @@
                         card.appendChild(content);
                         container.appendChild(card);
                         
-                        isReplaced = true;
                         console.log('✅ Token Information baru yang estetis telah dibuat!');
                         return true;
                     }
@@ -166,11 +177,9 @@
         return false;
     }
     
-    // Observer
+    // Observer untuk detect DOM changes
     const observer = new MutationObserver(function(mutations) {
-        if (!isReplaced) {
-            replaceTokenSections();
-        }
+        replaceTokenSections();
     });
     
     function startObserving() {
@@ -183,26 +192,39 @@
         replaceTokenSections();
     }
     
+    // Monitor URL changes (untuk detect navigasi SPA)
+    const originalPushState = history.pushState;
+    const originalReplaceState = history.replaceState;
+    
+    history.pushState = function() {
+        originalPushState.apply(this, arguments);
+        setTimeout(replaceTokenSections, 100);
+        setTimeout(replaceTokenSections, 500);
+        setTimeout(replaceTokenSections, 1000);
+    };
+    
+    history.replaceState = function() {
+        originalReplaceState.apply(this, arguments);
+        setTimeout(replaceTokenSections, 100);
+        setTimeout(replaceTokenSections, 500);
+        setTimeout(replaceTokenSections, 1000);
+    };
+    
+    window.addEventListener('popstate', function() {
+        setTimeout(replaceTokenSections, 100);
+        setTimeout(replaceTokenSections, 500);
+        setTimeout(replaceTokenSections, 1000);
+    });
+    
+    // Start
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', startObserving);
     } else {
         startObserving();
     }
     
-    // Retry mechanism
-    let retries = 0;
-    const maxRetries = 20;
-    const retryInterval = setInterval(function() {
-        if (isReplaced || retries >= maxRetries) {
-            clearInterval(retryInterval);
-            if (isReplaced) {
-                observer.disconnect();
-            }
-            return;
-        }
-        replaceTokenSections();
-        retries++;
-    }, 500);
+    // Periodic check setiap 2 detik untuk memastikan
+    setInterval(replaceTokenSections, 2000);
     
 })();
 
