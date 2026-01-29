@@ -141,6 +141,9 @@
                         burnedLPLabel.textContent = 'Burned LP';
                         burnedLPLabel.className = 'text-sm text-muted-foreground mb-2';
                         
+                        const burnedLPContent = document.createElement('div');
+                        burnedLPContent.className = 'flex items-center justify-between';
+                        
                         const burnedLPLink = document.createElement('a');
                         burnedLPLink.href = BURNED_LP_LINK;
                         burnedLPLink.target = '_blank';
@@ -148,8 +151,15 @@
                         burnedLPLink.textContent = '🔥 View on Explorer';
                         burnedLPLink.className = 'text-sm text-orange-400 hover:text-orange-300 underline underline-offset-2 inline-flex items-center gap-1 transition-colors';
                         
+                        const burnedPercentage = document.createElement('span');
+                        burnedPercentage.textContent = '100%';
+                        burnedPercentage.className = 'text-sm font-semibold text-orange-400';
+                        
+                        burnedLPContent.appendChild(burnedLPLink);
+                        burnedLPContent.appendChild(burnedPercentage);
+                        
                         burnedLPRow.appendChild(burnedLPLabel);
-                        burnedLPRow.appendChild(burnedLPLink);
+                        burnedLPRow.appendChild(burnedLPContent);
                         content.appendChild(burnedLPRow);
                         
                         // BUY Button
