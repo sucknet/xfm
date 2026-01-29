@@ -1,0 +1,12 @@
+{
+  "name": "flamedex",
+  "version": "1.0.0",
+  "description": "FlameDex - DEX Trading Platform",
+  "scripts": {
+    "server": "http-server drogo.trade -p 8080",
+    "start": "http-server drogo.trade -p 8080"
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}
