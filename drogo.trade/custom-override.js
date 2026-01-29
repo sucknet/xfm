@@ -4,8 +4,8 @@
     
     let lastUrl = location.href;
     const CONTRACT_ADDRESS = 'XFLm5L3SXHJ26YDiiHLLCEANGpTG5afatWLMPMG5Ypv';
-    const BURNED_LP_LINK = '#'; // Akan diisi nanti
-    const BUY_LINK = '#'; // Akan diisi nanti
+    const BURNED_LP_LINK = 'https://explorer.mainnet.x1.xyz/tx/N2xNJ9rLoF32Bne8f2s9rkzsxCFRHRQ1oiPjLbKCmzZeH3aqAM1bfZuDPPXeH93bQHKXUkkRFj1UJRSSsnzCksy';
+    const BUY_LINK = 'https://app.xdex.xyz/swap';
     
     function copyToClipboard(text) {
         navigator.clipboard.writeText(text).then(function() {
@@ -144,9 +144,9 @@
                         const burnedLPLink = document.createElement('a');
                         burnedLPLink.href = BURNED_LP_LINK;
                         burnedLPLink.target = '_blank';
-                        burnedLPLink.textContent = 'View on Explorer';
-                        burnedLPLink.className = 'text-sm text-orange-400 hover:text-orange-300 underline underline-offset-2 inline-flex items-center gap-1';
-                        burnedLPLink.innerHTML = '🔥 View on Explorer <span class="text-xs opacity-60">(link will be added)</span>';
+                        burnedLPLink.rel = 'noopener noreferrer';
+                        burnedLPLink.textContent = '🔥 View on Explorer';
+                        burnedLPLink.className = 'text-sm text-orange-400 hover:text-orange-300 underline underline-offset-2 inline-flex items-center gap-1 transition-colors';
                         
                         burnedLPRow.appendChild(burnedLPLabel);
                         burnedLPRow.appendChild(burnedLPLink);
@@ -155,6 +155,8 @@
                         // BUY Button
                         const buyButton = document.createElement('a');
                         buyButton.href = BUY_LINK;
+                        buyButton.target = '_blank';
+                        buyButton.rel = 'noopener noreferrer';
                         buyButton.textContent = 'Buy XFLM';
                         buyButton.className = 'block w-full bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 text-base font-semibold rounded-lg transition-all hover:shadow-lg text-center mt-6';
                         buyButton.style.cursor = 'pointer';
