@@ -6,6 +6,7 @@
     const CONTRACT_ADDRESS = 'XFLm5L3SXHJ26YDiiHLLCEANGpTG5afatWLMPMG5Ypv';
     const BURNED_LP_LINK = 'https://explorer.mainnet.x1.xyz/tx/N2xNJ9rLoF32Bne8f2s9rkzsxCFRHRQ1oiPjLbKCmzZeH3aqAM1bfZuDPPXeH93bQHKXUkkRFj1UJRSSsnzCksy';
     const BUY_LINK = 'https://app.xdex.xyz/swap';
+    const TELEGRAM_LINK = 'https://t.me/+IMaKQClkMuNkYTA1';
     
     function copyToClipboard(text) {
         navigator.clipboard.writeText(text).then(function() {
@@ -171,6 +172,16 @@
                         buyButton.className = 'block w-full bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 text-base font-semibold rounded-lg transition-all hover:shadow-lg text-center mt-6';
                         buyButton.style.cursor = 'pointer';
                         content.appendChild(buyButton);
+                        
+                        // Telegram Button
+                        const telegramButton = document.createElement('a');
+                        telegramButton.href = TELEGRAM_LINK;
+                        telegramButton.target = '_blank';
+                        telegramButton.rel = 'noopener noreferrer';
+                        telegramButton.innerHTML = '📱 Join Telegram';
+                        telegramButton.className = 'block w-full bg-[#0088cc] hover:bg-[#0077b5] text-white px-6 py-3 text-base font-semibold rounded-lg transition-all hover:shadow-lg text-center mt-3';
+                        telegramButton.style.cursor = 'pointer';
+                        content.appendChild(telegramButton);
                         
                         // Tambahkan semua ke card
                         card.appendChild(content);
